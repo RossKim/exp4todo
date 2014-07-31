@@ -1,0 +1,17 @@
+*{<meta charset="utf-8">}*
+#{extends 'Application/main.html' /}
+
+<div class="container">
+#{form @submitEditAccount(), class:"form-signin"}
+	#{showError /}
+	<h2 class="form-signin-heading">Edit Account</h2>
+	<input type="hidden" name="user.id" value="${user.id}" />
+	<input type="text" class="form-control" placeholder="Name" name="user.name" value="${user.name}" required autofocus>
+	<input type="text" class="form-control" placeholder="ID" name="user.stringId" value="${user.stringId}" required>
+	<input type="password" class="form-control" placeholder="Password" name="user.password" maxlength="12">
+	<button type="submit" class="btn btn-lg btn-success btn-block">Edit</button>
+	<br>
+	<a href="@{TaskController.taskList()}" class="btn btn-lg btn-primary">Back</a>
+	<a href="@{deleteAccount()}" class="btn btn-lg btn-danger">Delete</a>
+#{/form}
+</div>

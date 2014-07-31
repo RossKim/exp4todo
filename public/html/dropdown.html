@@ -1,0 +1,40 @@
+<li class="dropdown">
+	<a id="dropAction" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+		Action<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropAction">
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" id="addTask" href="/task/addTask">Add Task</a>
+		</li>
+		<li role="presentation" class="divider"></li>
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/tasklistconfirmed?showOnlyNotConfirmed=false">Show All</a>
+		</li>
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/tasklistconfirmed?showOnlyNotConfirmed=true">Show Only Not Confirmed Task</a>
+		</li>
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/taskDangerous">Show Dangerous Task</a>
+		</li>
+	</ul>
+</li>
+<li class="dropdown">
+	<a id="dropPriority" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+		Priority<b class="caret"></b>
+	</a>
+	<ul class="dropdown-menu" role="menu" aria-labelledby="dropPriority">
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/taskPriority?priority=All">All</a>
+		</li>
+		<li role="presentation" class="divider"></li>
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/taskPriority?priority=High">High</a>
+		</li>
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/taskPriority?priority=Normal">Normal</a>
+		</li>
+		<li role="presentation">
+			<a role="menuItem" tabIndex="-1" href="/task/taskPriority?priority=Low">Low</a>
+		</li>
+	</ul>
+</li>

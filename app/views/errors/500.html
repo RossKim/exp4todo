@@ -1,0 +1,19 @@
+*{<meta charset="utf-8">}*
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Application error</title>
+</head>
+<body>
+#{if play.mode.name() == 'DEV'}
+  #{500 exception /}
+#{/if}
+#{else}
+  <h1>Oops, an error occured</h1>
+  #{if exception instanceof play.exceptions.PlayException}
+  <p>This exception has been logged with id <strong>${exception.id}</strong>.</p>
+  #{/if}
+#{/else}
+</body>
+</html>

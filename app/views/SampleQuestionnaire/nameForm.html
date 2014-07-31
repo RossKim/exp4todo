@@ -1,0 +1,11 @@
+*{<meta charset="utf-8">}*
+#{extends 'SampleQuestionnaire/main.html' /}
+<h2>名前</h2>
+<p>あなたの名前を教えてください．</p>
+<form action="@{postName()}" method="post">
+  <dl>
+    <dt><label for="name">名前</label></dt>
+    <dd><input type="text" name="name" size="20" value="" /></dd>
+  </dl>
+  <p><input type="submit" /></p>
+</form>

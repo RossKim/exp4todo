@@ -1,0 +1,27 @@
+*{<meta charset="utf-8">}*
+#{extends 'SampleQuestionnaire/main.html' /}
+<h2>アンケート回答一覧</h2>
+
+<h3>全員</h3>
+<ul>
+  *{ リスト全体をループする： #{list items: リスト変数, as: ループ中で参照する変数名} }*
+  #{list items: entries, as: 'entry'}
+    <li>${entry.id}: ${entry.name} さん (${entry.gender == 1 ? '男性' : '女性'})</li>
+  #{/list}
+</ul>
+
+<h3>男性のみ</h3>
+<ul>
+  #{list items: males, as: 'entry'}
+  <li>${entry.id}: ${entry.name} さん: ${entry.comment.nl2br()}</li>
+  #{/list}
+</ul>
+
+<h3>女性のみ</h3>
+<ul>
+  #{list items: females, as: 'entry'}
+  <li>${entry.id}: ${entry.name} さん: ${entry.comment.nl2br()}</li>
+  #{/list}
+</ul>
+
+<p><a href="@{index()}">最初に戻る</a></p>

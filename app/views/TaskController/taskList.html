@@ -1,0 +1,240 @@
+*{<meta charset="utf-8">}*
+#{extends 'Application/main.html' /}
+#{showError /}
+<div id="navbar" class="navbar navbar-default navbar-fixed-top" role="navigation">
+	<div class="container">
+	<div class="navbar-header">
+		<a href="@{index()}" class="navbar-brand">Task</a>
+	</div>
+	<div class="collapse navbar-collapse bs-js-navbar-collapse">
+		<ul id="dropActionContents" class="nav navbar-nav"></ul>
+		<ul id="dropUserContents" class="nav navbar-nav navbar-right">
+			<li class="dropdown">
+				<a id="dropUser" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+					${userName}
+				</a>
+			</li>
+			<li id="fat-menu">
+				<a href="@{Application.signOut()}" role="button">Log Out</a>
+			</li>
+		</ul>
+	</div>
+	</div>
+</div>
+<div id="listContainer" class="container">
+<div id="editTool">
+	<a href="@{Application.editAccount()}" class="btn btn-primary">Edit Account</a>
+	<a id="addTask" href="@{addTask()}" class="btn btn-primary">Add Task</a>
+	#{if confirmed}
+	<a href="@{taskListConfirmed(false)}" class="btn btn-primary">Show All</a>
+	#{/if}
+	#{else}
+	<a href="@{taskListConfirmed(true)}" class="btn btn-primary">Show Only Not Confirmed Task</a>
+	#{/else}
+</div>
+<div id="taskContainer">
+	<table id="taskTable" class="table table-hover">
+	<thead><tr>
+		<th>Title</th>
+		<th>CreateDate</th>
+		<th>Priority</th>
+		<th>Deadline</th>
+		<th>Confirmed</th>
+		<th>Owner</th>
+	</tr></thead>
+	<tbody id="taskList">
+	#{list items:taskList, as:'task'}
+		#{if task.isConfirmed()}
+		<tr class="success" taskid="${task.getId()}">
+		#{/if}
+		#{elseif task.isDangerous()}
+		<tr class="danger" taskid="${task.getId()}">
+		#{/elseif}
+		#{elseif task.isHighPriority()}
+		<tr class="warning" taskid="${task.getId()}">
+		#{/elseif}
+		#{else}
+		<tr taskid="${task.getId()}">
+		#{/else}
+			<td id="taskTitle"><a href="@{editTask(task.getId())}">${task.getTitle()}</a></td>
+			<td id="taskCreateDate">${task.getCreateDateToString()}</td>
+			<td id="taskPriority">${task.getPriority().name()}</td>
+			<td id="taskDeadline">${task.getDeadlineToString()}</td>
+			<td id="taskConfirmed">${task.isConfirmed()}</td>
+			<td id="taskOwner">${task.getOwner()}</td>
+		</tr>
+	#{/list}
+	</tbody>
+	</tbody></table>
+</div>
+</div>
+
+<div id="dialog">
+<div id="editTaskDialog" class="modal fade">
+	<div class="modal-dialog"><div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 class="modal-title">Edit Task</h3>
+	</div>
+	<div class="modal-body">
+		<div id="errorEditAlert" class="alert alert-danger fade in">
+			<button type="button" class="close" aria-hidden="true" onclick="hideAlert('#errorEditAlert')">&times;</button>
+			<h4>Error</h4>
+			<div id="errorEditContents"></div>
+		</div>
+		<div id="taskContainer">
+		<form role="form">
+			<div class="form-group">
+				<label for="task.title">Title</label>
+				<input type="text" name="task.title" class="form-control" placeholder="Title" />
+			</div>
+			<div class="form-group">
+    			<label for="task.createDate">Created Date</label>
+    			<input type="datetime-local" class="form-control" name="task.createDate" readonly/>
+    		</div>
+    		<div class="form-group">
+	    		<label for="task.priority">Priority</label>
+    			<select class="form-control" name="task.priority">
+    			#{list items:Priority, as:'type'}
+    				<option value="${type.name()}">${type.name()}</option>
+    			#{/list}
+    		</select>
+	    	</div>
+    		<div class="form-group">
+    			<label for="task.deadline">Deadline</label>
+    			<p><small>It should be "YYYY-MM-DD'T'HH:mm"</small></p>
+    			<input type="datetime-local" class="form-control" name="task.deadline"/>
+    		</div>
+    		<div class="form-group">
+    			<label>Open Task to Others</label>
+    			<table id="selectUserTable" class="table table-condensed form-group">
+    				<thead>
+    				<tr>
+    					<td id="selectUser"><small>Selected User</small></td>
+    					<td id="button"></td>
+    					<td id="allUser"><small>All User</small></td>
+    				</tr>
+    				</thead>
+    				<tbody>
+    				<tr>
+    					<td id="selectUser">
+    						<select multiple class="form-control" name="task.selectedRelative">
+    						</select>
+    					</td>
+    					<td id="button">
+    						<p><button type="button" class="btn btn-default btn-sm" onclick="selectUser('#editTaskDialog');">&lt;&#45;</button></p>
+    						<p><button type="button" class="btn btn-default btn-sm" onclick="deselectUser('#editTaskDialog');">&#45;&gt;</button></p>
+    					</td>
+    					<td id="allUser">
+    						<select multiple class="form-control" name="task.relative">
+    						</select>
+    					</td>
+    				</tr>
+    				</tbody>
+    			</table>
+    			<button type="button" class="btn btn-default btn-xs" onclick="selectAllUser('#editTaskDialog');">Open to All</button>
+    			<button type="button" class="btn btn-default btn-xs" onclick="deselectAllUser('#editTaskDialog');">Open to None</button>
+    		</div>
+    	</form>
+  		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" id="submitDialogButton" class="btn btn-primary">Edit</button>
+	</div>
+	</div></div>
+</div>
+<div id="addTaskDialog" class="modal fade">
+	<div class="modal-dialog"><div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 class="modal-title">Add Task</h3>
+	</div>
+	<div class="modal-body">
+		<div id="errorAddAlert" class="alert alert-danger fade in">
+			<button type="button" class="close" aria-hidden="true" onclick="hideAlert('#errorAddAlert')">&times;</button>
+			<h4>Error</h4>
+			<div id="errorAddContents"></div>
+		</div>
+		<div id="taskContainer">
+		<form role="form">
+			<div class="form-group">
+				<label for="task.title">Title</label>
+				<input type="text" name="task.title" class="form-control" placeholder="Title" />
+			</div>
+			<div class="checkbox">
+  			<label>
+  				<input type="checkbox" name="isConfirmed" value="true" />Confirmed
+  			</label>
+  			</div>
+    		<div class="form-group">
+	    		<label for="task.priority">Priority</label>
+    			<select class="form-control" name="task.priority">
+    			#{list items:Priority, as:'type'}
+    				<option value="${type.name()}">${type.name()}</option>
+    			#{/list}
+    		</select>
+	    	</div>
+    		<div class="form-group">
+    			<label for="task.deadline">Deadline</label>
+    			<p><small>It should be "YYYY-MM-DD'T'HH:mm"</small></p>
+    			<input type="datetime-local" class="form-control" name="task.deadline"/>
+    		</div>
+    		<div class="form-group">
+    			<label>Open Task to Others</label>
+    			<table id="selectUserTable" class="table table-condensed form-group">
+    				<thead>
+    				<tr>
+    					<td id="selectUser"><small>Selected User</small></td>
+    					<td id="button"></td>
+    					<td id="allUser"><small>All User</small></td>
+    				</tr>
+    				</thead>
+    				<tbody>
+    				<tr>
+    					<td id="selectUser">
+    						<select multiple class="form-control" name="task.selectedRelative">
+    						</select>
+    					</td>
+    					<td id="button">
+    						<p><button type="button" class="btn btn-default btn-sm" onclick="selectUser('#addTaskDialog');">&lt;&#45;</button></p>
+    						<p><button type="button" class="btn btn-default btn-sm" onclick="deselectUser('#addTaskDialog');">&#45;&gt;</button></p>
+    					</td>
+    					<td id="allUser">
+    						<select multiple class="form-control" name="task.relative">
+    						</select>
+    					</td>
+    				</tr>
+    				</tbody>
+    			</table>
+    			<button type="button" class="btn btn-default btn-xs" onclick="selectAllUser('#addTaskDialog');">Open to All</button>
+    			<button type="button" class="btn btn-default btn-xs" onclick="deselectAllUser('#addTaskDialog');">Open to None</button>
+    		</div>
+    	</form>
+		</div>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+		<button type="button" id="submitDialogButton" class="btn btn-primary" onclick="addTask();">Add</button>
+	</div>
+	</div></div>
+</div>
+<div id="deleteTaskDialog" class="modal fade">
+	<div class="modal-dialog"><div class="modal-content">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+		<h3 class="modal-title">Delete Task</h3>
+	</div>
+	<div class="modal-body">
+		<p id="title"></p>
+	</div>
+	<div class="modal-footer">
+		<button type="button" class="btn btn-default" data-dismiss="modal">No</button>
+		<button type="button" id="submitDialogButton" class="btn btn-primary">Delete</button>
+	</div>
+	</div></div>
+</div>
+</div>
+<script type="text/javascript">
+changeToJavascript();
+</script>

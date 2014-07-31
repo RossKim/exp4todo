@@ -1,0 +1,38 @@
+*{<meta charset="utf-8">}*
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="ja-JP" xml:lang="ja-JP">
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+  <script type="text/javascript" src="@{'/public/javascripts/sampleajax.js'}"></script>
+  <title>Ajax のサンプル</title>
+</head>
+<body>
+<h1>Ajax のサンプル</h1>
+
+<h2>JavaScript 基礎の基礎</h2>
+<ul>
+  <li><button onclick="alert('test')">alert('test')</button></li>
+  <li><button onclick="if (true) { alert(true) } else { alert(false) }">if (true) { alert(true) } else { alert(false) }</button></li>
+  <li><button onclick="for (var i = 0; i < 5; i++) { alert(i) }">for (var i = 0; i < 5; i++) { alert(i) }</li>
+  <li><button onclick="alert('str' + 'ing')">alert('str' + 'ing')</li>
+</ul>
+
+<h2 id="dom">DOM 基礎の基礎</h2>
+<ul>
+  <li><button onclick="alert(document.getElementById('dom').textContent)">getElementById</button></li>
+  <li><input type="text" id="textbox" value="？" />
+      <button onclick="alert('値は [' + document.getElementById('textbox').value + '] です')">←</button></li>
+</ul>
+<p><button onclick="var li = document.createElement('li'); li.appendChild(document.createTextNode('new item')); document.getElementById('list').appendChild(li)">add</button></p>
+<ul id="list">
+  <li>item</li>
+</ul>
+
+<h2>XMLHttpRequest の基礎の基礎</h2>
+<form>
+  <input id="f" type="text" value="ビール" />
+  <button onclick="xhrsample(); return false">xhrsample()</button>
+</form>
+
+</body>
+</html>

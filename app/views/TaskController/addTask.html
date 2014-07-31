@@ -1,0 +1,47 @@
+*{<meta charset="utf-8">}*
+#{extends 'Application/main.html' /}
+
+<div class="container">
+<div class="form-task">
+#{showError /}
+#{form @submitTask(), role:"form"}
+	<h2>Add Task</h2>
+	<input type="hidden" name="task.userId" value="${userId}" />
+	<div class="form-group">	
+  		<label for="task.title">Title</label>
+  		<input type="text" name="task.title" class="form-control" placeholder="Title" value="${flash['task.title']}" />
+  	</div>
+  	<div class="checkbox">
+  		<label>
+  			<input type="checkbox" name="isConfirmed" value="true" />Confirmed
+  		</label>
+  	</div>
+    <div class="form-group">
+    	<label for="task.priority">Priority</label>
+    	<select class="form-control" name="task.priority">
+    		#{list items:Priority, as:'type'}
+    		<option value="${type.name()}" #{if type.name().equals("Normal")} selected #{/if}>${type.name()}</option>
+    		#{/list}
+    	</select>
+    </div>
+    <div class="form-group">
+    	<label for="task.deadline">Deadline</label>
+    	<p><small>It should be "YYYY-MM-DD'T'HH:mm"</small></p>
+    	<input type="datetime-local" class="form-control" name="deadline" value="${Today}"/>
+    </div>
+    <div class="form-group">
+    	<label>Open Task to Others</label>
+    	<input type="hidden" name="selList" value="${userId}" />
+    	#{list items:userList, as:'user'}
+    	<div class="checkbox">
+    		<label>
+    				<input type="checkbox" name="selList" value="${user.id}" #{if user.id.equals(userId)} checked disabled #{/if} />
+    				${user.name}&nbsp;&lt;${user.stringId}&gt;&nbsp;#{if user.id.equals(userId)}(You)#{/if}
+    		</label>
+    	</div>
+    	#{/list}
+    </div>
+    <button type="submit" class="btn btn-default">Submit</button><a href="@{taskList()}" class="btn btn-default">Back</a>
+#{/form}
+</div>
+</div>

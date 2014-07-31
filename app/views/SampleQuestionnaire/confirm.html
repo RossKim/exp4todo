@@ -1,0 +1,16 @@
+*{<meta charset="utf-8">}*
+#{extends 'SampleQuestionnaire/main.html' /}
+<h2>確認</h2>
+<p>あなたの入力は以下の通りです．</p>
+<dl>
+  <dt>性別</dt>
+  <dd>${session.gender}</dd>
+  <dt>名前</dt>
+  <dd>${session.name}</dd>
+  <dt>感想</dt>
+  <dd>${session.comment.nl2br()}</dd>
+</dl>
+<p>送信してもよろしいですか?</p>
+<form action="@{submit()}" method="post">
+  <input type="submit" />
+</form>

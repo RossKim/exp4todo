@@ -1,0 +1,19 @@
+# Routes
+# This file defines all application routes (Higher priority routes first)
+# ~~~~
+
+GET     /favicon.ico                            staticFile:public/images/favicon.png
+GET     /robots.txt                             404
+
+# /app/static/ に置かれた静的リソースを /public/ で公開
+GET     /public/                                staticDir:public
+
+# exp4todo
+GET     /                                       Application.index
+*       /{action}                               Application.{action}
+*		/task/									TaskController.index
+*		/task/{action}							TaskController.{action}
+
+# 上記以外のリクエストをすべて受け取る
+*       /{controller}/                          {controller}.index
+*       /{controller}/{action}                  {controller}.{action}

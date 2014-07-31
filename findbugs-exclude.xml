@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<FindBugsFilter>
+	<Match>
+		<Class name="models.SampleEntry" />
+	</Match>
+	<Match>
+		<Bug pattern="EI_EXPOSE_REP" />
+	</Match>
+	<Match>
+		<Bug pattern="EI_EXPOSE_REP2" />
+	</Match>
+	<Match>
+		<Or>
+			<Class name="models.Task" />
+			<Class name="models.User" />
+			<Class name="models.TaskRelative" />
+		</Or>
+		<Bug pattern="EQ_DOESNT_OVERRIDE_EQUALS" />
+	</Match>
+	<Match>
+		<Class name="sample.HashSample" />
+	</Match>
+</FindBugsFilter>

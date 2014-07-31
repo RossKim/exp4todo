@@ -1,0 +1,15 @@
+*{<meta charset="utf-8">}*
+#{extends 'Application/main.html' /}
+
+<div class="container">
+#{form @submitSignUp(), class:"form-signin"}
+	#{showError /}
+	<h2 class="form-signin-heading">Sign Up</h2>
+	<input type="text" class="form-control" placeholder="Name" name="user.name" value="${flash['user.name']}" required autofocus>
+	<input type="text" class="form-control" placeholder="ID" name="user.stringId" value="${flash['user.stringId']}" required>
+	<input type="password" class="form-control" placeholder="Password" name="user.password" maxlength="12" required>
+	<button type="submit" class="btn btn-lg btn-success btn-block">Sign Up</button>
+	<br>
+	<a href="@{signin()}" class="btn btn-lg btn-primary">Sign In</a>
+#{/form}
+</div>

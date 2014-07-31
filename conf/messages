@@ -1,0 +1,16 @@
+# You can specialize this file for each language.
+# For example, for French create a messages.fr file
+#
+
+validation.required=%s is empty.
+validation.unique=%s is already used.
+validation.invalid=%s is incorrect value.
+
+user.stringId=ID
+user.name=Name
+task.title=Title
+task.Title=Title
+task.deadlline=Deadline
+deadline=Deadline
+isConfirmed=Confirmed
+task.priority=Priority
